@@ -55,7 +55,7 @@
                     <generateRepository>false</generateRepository>
                     <programs>
                         <program>
-                            <mainClass>com.hr.pr.Main</mainClass>
+                            <mainClass>com.heroku.webapp.Main</mainClass>
                             <name>webapp</name>
                         </program>
                     </programs>
