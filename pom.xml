@@ -54,7 +54,7 @@
                     <assembleDirectory>target</assembleDirectory> 
                     <programs>
                         <program>
-                            <mainClass>com.heroku.webapp.Main</mainClass>
+                            <mainClass>com.hr.pr.Main</mainClass>
                             <name>webapp</name>
                         </program>
                     </programs>
