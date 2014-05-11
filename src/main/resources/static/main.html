@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" ng-app="formApp">
+
+<head>
+    <title>Github pull request statistics</title>
+    <meta charset="utf-8"/>
+
+    <style type="text/css">
+        body {
+            font-family: "helvetica";
+            color: #333;
+        }
+
+        .chart {
+            float: left;
+            width: 50%;
+            height: 400px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+<div ng-controller="userAndRepoFormController">
+    <form ng-submit="processUserAndRepoForm()">
+        <div>
+            <label>Token</label>
+            <input type="text" name="token" placeholder="Token" ng-model="userAndRepoData.token"/>
+        </div>
+
+        <div>
+            <label>Owner</label>
+            <input type="text" name="owner" placeholder="Owner" ng-model="userAndRepoData.owner"/>
+        </div>
+
+        <div>
+            <label>Repository</label>
+            <input type="text" name="repository" placeholder="Repository" ng-model="userAndRepoData.repository"/>
+        </div>
+
+        <button type="submit">
+            Submit!
+        </button>
+
+    </form>
+
+    <pre>
+        {{ userAndRepoData }}
+    </pre>
+
+    <pre>
+        {{ pullRequestStat }}
+    </pre>
+</div>
+
+<div class='charts' ng-controller="chartController">
+    <div ac-chart="chartType" ac-data="data" ac-config="config" id='chart' class='chart'></div>
+</div>
+
+
+    <!-- TODO : install jquery properly! -->
+    <script src="http://chinmaymk.github.io/angular-charts/js/jquery-1.10.2.js"></script>
+    <!-- TODO : install angular properly! -->
+    <script src="http://chinmaymk.github.io/angular-charts/js/angular.min.js"></script>
+    <!-- TODO : install it properly! -->
+    <script src="http://chinmaymk.github.io/angular-charts/js/d3.min.js"></script>
+    <!-- TODO : install it properly! -->
+    <script src="http://chinmaymk.github.io/angular-charts/js/angular-charts.min.js"></script>
+
+
+    <script>
+        var formApp = angular.module('formApp', ['angularCharts']);
+
+        function userAndRepoFormController($scope, $http) {
+            $scope.userAndRepoData = {};
+
+            $scope.processUserAndRepoForm = function() {
+
+                $http({
+                    method : 'GET',
+                    url    : '/stat',
+                    params   : $scope.userAndRepoData
+                })
+                        .success(function(data) {
+                    $scope.pullRequestStat = data;
+                })
+                        .error(function(status) {
+                    //TODO: provide the user with proper message
+                    $scope.message = 'Github request failed.';
+                })
+            }
+        }
+
+        function chartController($scope) {
+
+            $scope.data = {
+                series: ['Cyclic times'],
+                data : [
+                    {
+                        x : "Jack",
+                        y: [100]
+                    },
+                    {
+                        x : "John",
+                        y: [300]
+                    },
+                    {
+                        x : "Stacy",
+                        y: [351]
+                    },
+                    {
+                        x : "Luke",
+                        y: [54]
+                    }
+                ]
+            }
+
+            $scope.chartType = "bar";
+
+            $scope.config = {
+                labels: false,
+                title : "Products",
+                legend : {
+                    display: false,
+                    position:'right'
+                }
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
